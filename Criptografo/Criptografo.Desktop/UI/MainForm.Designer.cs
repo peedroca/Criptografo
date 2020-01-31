@@ -110,6 +110,7 @@
             this.TypeComboBox.Name = "TypeComboBox";
             this.TypeComboBox.Size = new System.Drawing.Size(181, 26);
             this.TypeComboBox.TabIndex = 1;
+            this.TypeComboBox.SelectedValueChanged += new System.EventHandler(this.TypeComboBox_SelectedValueChanged);
             // 
             // label2
             // 
