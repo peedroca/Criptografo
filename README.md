@@ -14,4 +14,5 @@
 | Descrição | Implementado |
 | --- | :---: |
 | DESCript   | :white_check_mark: |
-| SHA256   | :x: |
+| SHA256   | :white_check_mark: |
+| MD5   | :x: |
