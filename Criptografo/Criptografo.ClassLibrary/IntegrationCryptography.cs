@@ -10,7 +10,11 @@ namespace Criptografo.ClassLibrary
         [Description("DES")]
         DES,
         [Description("SHA256")]
-        SHA256
+        SHA256,
+        [Description("AES")]
+        AES,
+        [Description("MD5")]
+        MD5,
     }
 
     public static class IntegrationCryptography
@@ -30,8 +34,14 @@ namespace Criptografo.ClassLibrary
                         case eTypeCryptography.DES:
                             cryptography = GetDESCrypt(content, key);
                             break;
+                        case eTypeCryptography.AES:
+                            cryptography = GetAESCrypt(content, key);
+                            break;
                         case eTypeCryptography.SHA256:
                             cryptography = GetSHA256Crypt(content);
+                            break;
+                        case eTypeCryptography.MD5:
+                            cryptography = GetMD5Crypt(content);
                             break;
                     }
                 }
@@ -61,7 +71,11 @@ namespace Criptografo.ClassLibrary
                         case eTypeCryptography.DES:
                             cryptography = GetDESDescrypt(content, key);
                             break;
+                        case eTypeCryptography.AES:
+                            cryptography = GetAESDescrypt(content, key);
+                            break;
                         case eTypeCryptography.SHA256:
+                        case eTypeCryptography.MD5:
                             throw new Exception("Este algoritmo não permite descriptografia.");
                     }
                 }
@@ -89,12 +103,14 @@ namespace Criptografo.ClassLibrary
                 if (string.IsNullOrWhiteSpace(content))
                     throw new Exception("Erro 01 - O conteúdo não foi informado.");
 
-                switch (typeCryptography)
+                if (string.IsNullOrEmpty(key))
                 {
-                    case eTypeCryptography.DES:
-                        if (string.IsNullOrEmpty(key))
+                    switch (typeCryptography)
+                    {
+                        case eTypeCryptography.DES:
+                        case eTypeCryptography.AES:
                             throw new Exception("Erro 02 - A chave de criptografia não foi informada.");
-                        break;
+                    }
                 }
 
                 return true;
@@ -143,6 +159,44 @@ namespace Criptografo.ClassLibrary
             }
         }
 
+        private static string GetAESCrypt(string content, string key)
+        {
+            Cripts.AESCripto cripto = null;
+
+            try
+            {
+                cripto = new Cripts.AESCripto();
+                return cripto.ToCrypt(key, content);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                cripto = null;
+            }
+        }
+
+        private static string GetAESDescrypt(string content, string key)
+        {
+            Cripts.AESCripto cripto = null;
+
+            try
+            {
+                cripto = new Cripts.AESCripto();
+                return cripto.ToDescrypt(key, content);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                cripto = null;
+            }
+        }
+
         private static string GetSHA256Crypt(string content)
         {
             Cripts.SHA256 cripto = null;
@@ -161,7 +215,26 @@ namespace Criptografo.ClassLibrary
                 cripto = null;
             }
         }
-       
+
+        private static string GetMD5Crypt(string content)
+        {
+            Cripts.MD5Cript cripto = null;
+
+            try
+            {
+                cripto = new Cripts.MD5Cript();
+                return cripto.ToCrypt(content);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                cripto = null;
+            }
+        }
+
         #endregion
     }
 }
