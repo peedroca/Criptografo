@@ -10,7 +10,9 @@ namespace Criptografo.ClassLibrary
         [Description("DES")]
         DES,
         [Description("SHA256")]
-        SHA256
+        SHA256,
+        [Description("DES128")]
+        DES128
     }
 
     public static class IntegrationCryptography
@@ -32,6 +34,9 @@ namespace Criptografo.ClassLibrary
                             break;
                         case eTypeCryptography.SHA256:
                             cryptography = GetSHA256Crypt(content);
+                            break;
+                        case eTypeCryptography.DES128:
+                            cryptography = GetDES128Crypt(content, key);
                             break;
                     }
                 }
@@ -63,6 +68,9 @@ namespace Criptografo.ClassLibrary
                             break;
                         case eTypeCryptography.SHA256:
                             throw new Exception("Este algoritmo não permite descriptografia.");
+                        case eTypeCryptography.DES128:
+                            cryptography = GetDES128Descrypt(content, key);
+                            break;
                     }
                 }
 
@@ -143,6 +151,44 @@ namespace Criptografo.ClassLibrary
             }
         }
 
+        private static string GetDES128Crypt(string content, string key)
+        {
+            Cripts.DES128 cripto = null;
+
+            try
+            {
+                cripto = new Cripts.DES128();
+                return cripto.ToCrypt(key, content);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                cripto = null;
+            }
+        }
+
+        private static string GetDES128Descrypt(string content, string key)
+        {
+            Cripts.DES128 cripto = null;
+
+            try
+            {
+                cripto = new Cripts.DES128();
+                return cripto.ToDescrypt(key, content);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                cripto = null;
+            }
+        }
+
         private static string GetSHA256Crypt(string content)
         {
             Cripts.SHA256 cripto = null;
@@ -161,7 +207,7 @@ namespace Criptografo.ClassLibrary
                 cripto = null;
             }
         }
-       
+
         #endregion
     }
 }
