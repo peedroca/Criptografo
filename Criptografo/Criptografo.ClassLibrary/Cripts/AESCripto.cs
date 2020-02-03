@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Criptografo.ClassLibrary.Cripts
 {
-    internal class DES128
+    internal class AESCripto
     {
         internal string ToCrypt(string chave, string mensagem)
         {
-            System.Security.Cryptography.DES des = System.Security.Cryptography.DES.Create();
-            des.Mode = System.Security.Cryptography.CipherMode.CBC;
-            des.KeySize = 128;
+            System.Security.Cryptography.RijndaelManaged rijndael = new System.Security.Cryptography.RijndaelManaged();
+            rijndael.Mode = System.Security.Cryptography.CipherMode.CBC;
+            rijndael.KeySize = 128;
 
             byte[] chaveBytes;
             byte[] criptografiaBytes;
@@ -21,7 +21,7 @@ namespace Criptografo.ClassLibrary.Cripts
             mensagemBytes = Encoding.UTF8.GetBytes(mensagem);
 
 
-            System.Security.Cryptography.ICryptoTransform cryptor = des.CreateEncryptor(chaveBytes, chaveBytes);
+            System.Security.Cryptography.ICryptoTransform cryptor = rijndael.CreateEncryptor(chaveBytes, chaveBytes);
             criptografiaBytes = cryptor.TransformFinalBlock(mensagemBytes, 0, mensagemBytes.Length);
             cryptor.Dispose();
 
@@ -31,9 +31,9 @@ namespace Criptografo.ClassLibrary.Cripts
 
         internal string ToDescrypt(string chave, string criptografia)
         {
-            System.Security.Cryptography.DES des = System.Security.Cryptography.DES.Create();
-            des.Mode = System.Security.Cryptography.CipherMode.CBC;
-            des.KeySize = 128;
+            System.Security.Cryptography.RijndaelManaged rijndael = new System.Security.Cryptography.RijndaelManaged();
+            rijndael.Mode = System.Security.Cryptography.CipherMode.CBC;
+            rijndael.KeySize = 128;
 
             byte[] chaveBytes;
             byte[] criptografiaBytes;
@@ -44,7 +44,7 @@ namespace Criptografo.ClassLibrary.Cripts
             mensagemBytes = Convert.FromBase64String(criptografia);
 
 
-            System.Security.Cryptography.ICryptoTransform cryptor = des.CreateDecryptor(chaveBytes, chaveBytes);
+            System.Security.Cryptography.ICryptoTransform cryptor = rijndael.CreateDecryptor(chaveBytes, chaveBytes);
             criptografiaBytes = cryptor.TransformFinalBlock(mensagemBytes, 0, mensagemBytes.Length);
             cryptor.Dispose();
 
