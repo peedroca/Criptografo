@@ -1,5 +1,5 @@
 # Criptografo
-#### Projeto OpenSource para codificar e decodificar objetos utilizando diferentes formas de criptografia.
+#### Projeto OpenSource para codificar e decodificar strings utilizando diferentes formas de criptografia.
 
 ![image](https://img.shields.io/github/languages/code-size/peedroca/criptografo)
 ![image](https://img.shields.io/github/languages/top/peedroca/criptografo)
@@ -14,4 +14,5 @@
 | Descrição | Implementado |
 | --- | :---: |
 | DESCript   | :white_check_mark: |
-| SHA256   | :x: |
+| SHA256   | :white_check_mark: |
+| MD5   | :x: |
