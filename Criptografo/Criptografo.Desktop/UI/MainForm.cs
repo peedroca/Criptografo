@@ -117,8 +117,22 @@ namespace Criptografo.Desktop.UI
                             , MessageBoxButtons.OK
                             , MessageBoxIcon.Information);
                         break;
+                    case eTypeCryptography.AES:
+                        MessageBox.Show("Você está utilizando o algoritmo AESCrypt. Informe uma chave de 16 caractéres."
+                            , Program.Name
+                            , MessageBoxButtons.OK
+                            , MessageBoxIcon.Information);
+                        break;
                     case eTypeCryptography.SHA256:
                         MessageBox.Show("Você está utilizando o algoritmo SHA256. Não é necessário utilizar uma chave."
+                            , Program.Name
+                            , MessageBoxButtons.OK
+                            , MessageBoxIcon.Information);
+
+                        KeyTextBox.Enabled = false;
+                        break;
+                    case eTypeCryptography.MD5:
+                        MessageBox.Show("Você está utilizando o algoritmo MD5Crypt. Não é necessário utilizar uma chave."
                             , Program.Name
                             , MessageBoxButtons.OK
                             , MessageBoxIcon.Information);
