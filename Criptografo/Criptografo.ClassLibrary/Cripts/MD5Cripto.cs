@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Criptografo.ClassLibrary.Cripts
 {
-    internal class MD5Cript
+    internal static class MD5Cript
     {
-        internal string ToCrypt(string mensagem)
+        internal static string ToCrypt(string mensagem)
         {
             System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
 

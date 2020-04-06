@@ -1,4 +1,5 @@
 ﻿using Criptografo.ClassLibrary;
+using Criptografo.ClassLibrary.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,9 +41,9 @@ namespace Criptografo.Desktop.UI
         {
             try
             {
-                string response = IntegrationCryptography.GetCryptography((eTypeCryptography)TypeComboBox.SelectedIndex, CryptTextBox.Text, KeyTextBox.Text);
+                string response = IntegrationCryptography.GetCryptography((TypeComboBox.SelectedItem as Cryptography).TypeCryptography, CryptTextBox.Text, KeyTextBox.Text);
 
-                if(!string.IsNullOrEmpty(response))
+                if (!string.IsNullOrEmpty(response))
                     DescryotTextBox.Text = response;
             }
             catch (Exception error)
@@ -58,7 +59,7 @@ namespace Criptografo.Desktop.UI
         {
             try
             {
-                string response = IntegrationCryptography.GetDescryptography((eTypeCryptography)TypeComboBox.SelectedIndex, DescryotTextBox.Text, KeyTextBox.Text);
+                string response = IntegrationCryptography.GetDescryptography((TypeComboBox.SelectedItem as Cryptography).TypeCryptography, DescryotTextBox.Text, KeyTextBox.Text);
 
                 if (!string.IsNullOrEmpty(response))
                     CryptTextBox.Text = response;
@@ -77,6 +78,21 @@ namespace Criptografo.Desktop.UI
             try
             {
                 QuantityCryptLabel.Text = $"Caractéres: {CryptTextBox.Text?.Length}";
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show($"Ocorreu um erro: {error.Message}"
+                    , Program.Name
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Error);
+            }
+        }
+
+        private void KeyTextBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                QuantityKeyLabel.Text = $"Caractéres: {KeyTextBox.Text?.Length}";
             }
             catch (Exception error)
             {
@@ -125,23 +141,85 @@ namespace Criptografo.Desktop.UI
         {
             try
             {
-                TypeComboBox.DisplayMember = "Description";
-                TypeComboBox.ValueMember = "Value";
-                TypeComboBox.DataSource = Enum.GetValues(typeof(eTypeCryptography))
-                    .Cast<Enum>()
-                    .Select(value => new
-                    {
-                        (Attribute.GetCustomAttribute(value.GetType().GetField(value.ToString()), typeof(DescriptionAttribute)) as DescriptionAttribute).Description,
-                        value
-                    })
-                    .ToList();
+                TypeComboBox.DisplayMember = "Name";
+                TypeComboBox.ValueMember = "TypeCryptography";
+                TypeComboBox.DataSource = IntegrationCryptography.GetCryptographies();
             }
             catch (Exception e)
             {
                 throw e;
             }
         }
-        
+
         #endregion
+
+        private void GenerateRSAKeyButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (IntegrationCryptography.MakeRSAKeys)
+                    MessageBox.Show($"Novas chaves geradas com sucesso em .\\crypt"
+                        , Program.Name
+                        , MessageBoxButtons.OK
+                        , MessageBoxIcon.Information);
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show($"Ocorreu um erro: {error.Message}"
+                    , Program.Name
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Error);
+            }
+        }
+
+        private void GenerateAESKeyButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                KeyTextBox.Text = IntegrationCryptography.GenerateAESKey();
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show($"Ocorreu um erro: {error.Message}"
+                    , Program.Name
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Error);
+            }
+        }
+
+        private void GenerateDESKeyButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                KeyTextBox.Text = IntegrationCryptography.GenerateDESKey();
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show($"Ocorreu um erro: {error.Message}"
+                    , Program.Name
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Error);
+            }
+        }
+
+        private void TypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var cript = (((ComboBox)sender).SelectedItem as Cryptography);
+
+                KeyTextBox.Enabled = cript.HasKey;
+
+                if (!cript.HasKey)
+                    KeyTextBox.Text = string.Empty;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show($"Ocorreu um erro: {error.Message}"
+                    , Program.Name
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Error);
+            }
+        }
     }
 }

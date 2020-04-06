@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Criptografo.ClassLibrary.Cripts
 {
-    internal class AESCripto
+    internal static class AESCripto
     {
-        internal string ToCrypt(string chave, string mensagem)
+        internal static string ToCrypt(string chave, string mensagem)
         {
             System.Security.Cryptography.RijndaelManaged rijndael = new System.Security.Cryptography.RijndaelManaged();
             rijndael.Mode = System.Security.Cryptography.CipherMode.CBC;
@@ -29,7 +29,7 @@ namespace Criptografo.ClassLibrary.Cripts
             return criptografia;
         }
 
-        internal string ToDescrypt(string chave, string criptografia)
+        internal static string ToDescrypt(string chave, string criptografia)
         {
             System.Security.Cryptography.RijndaelManaged rijndael = new System.Security.Cryptography.RijndaelManaged();
             rijndael.Mode = System.Security.Cryptography.CipherMode.CBC;

@@ -1,25 +1,47 @@
-﻿using System;
+﻿using Criptografo.ClassLibrary.Cripts;
+using Criptografo.ClassLibrary.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
 namespace Criptografo.ClassLibrary
 {
-    public enum eTypeCryptography : int
-    {
-        [Description("DES")]
-        DES,
-        [Description("SHA256")]
-        SHA256,
-        [Description("AES")]
-        AES,
-        [Description("MD5")]
-        MD5,
-    }
-
     public static class IntegrationCryptography
     {
         #region Public Methods
+
+        public static IEnumerable<Cryptography> GetCryptographies()
+        {
+            try
+            {
+                return new List<Cryptography>()
+                {
+                    new Cryptography() { Name = "AES", HasKey = true, TypeCryptography = eTypeCryptography.AES},
+                    new Cryptography() { Name = "DES", HasKey = true, TypeCryptography = eTypeCryptography.DES},
+                    new Cryptography() { Name = "MD5", HasKey = false, TypeCryptography = eTypeCryptography.MD5},
+                    new Cryptography() { Name = "RSA", HasKey = false, TypeCryptography = eTypeCryptography.RSA},
+                    new Cryptography() { Name = "SHA256", HasKey = false, TypeCryptography = eTypeCryptography.SHA256},
+                    new Cryptography() { Name = "Zenit-Polar", HasKey = false, TypeCryptography = eTypeCryptography.ZenitPolar},
+                };
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static bool MakeRSAKeys => RSACripto.MakeKey();
+
+        public static string GenerateAESKey()
+        {
+            return Guid.NewGuid().GetKeyFromGuid(16);
+        }
+
+        public static string GenerateDESKey()
+        {
+            return Guid.NewGuid().GetKeyFromGuid();
+        }
 
         public static string GetCryptography(eTypeCryptography typeCryptography, string content, string key = null)
         {
@@ -32,16 +54,22 @@ namespace Criptografo.ClassLibrary
                     switch (typeCryptography)
                     {
                         case eTypeCryptography.DES:
-                            cryptography = GetDESCrypt(content, key);
+                            cryptography = DESCripto.ToCrypt(key, content);
                             break;
                         case eTypeCryptography.AES:
-                            cryptography = GetAESCrypt(content, key);
+                            cryptography = AESCripto.ToCrypt(key, content);
                             break;
                         case eTypeCryptography.SHA256:
-                            cryptography = GetSHA256Crypt(content);
+                            cryptography = SHA256.ToCrypt(content);
                             break;
                         case eTypeCryptography.MD5:
-                            cryptography = GetMD5Crypt(content);
+                            cryptography = MD5Cript.ToCrypt(content);
+                            break;
+                        case eTypeCryptography.ZenitPolar:
+                            cryptography = Zenit_Polar.ToCript(content);
+                            break;
+                        case eTypeCryptography.RSA:
+                            cryptography = RSACripto.Encrypt(content);
                             break;
                     }
                 }
@@ -69,14 +97,20 @@ namespace Criptografo.ClassLibrary
                     switch (typeCryptography)
                     {
                         case eTypeCryptography.DES:
-                            cryptography = GetDESDescrypt(content, key);
+                            cryptography = DESCripto.ToDescrypt(key, content);
                             break;
                         case eTypeCryptography.AES:
-                            cryptography = GetAESDescrypt(content, key);
+                            cryptography = AESCripto.ToDescrypt(key, content);
                             break;
                         case eTypeCryptography.SHA256:
                         case eTypeCryptography.MD5:
                             throw new Exception("Este algoritmo não permite descriptografia.");
+                        case eTypeCryptography.ZenitPolar:
+                            cryptography = Zenit_Polar.ToDescript(content);
+                            break;
+                        case eTypeCryptography.RSA:
+                            cryptography = RSACripto.Decrypt(content);
+                            break;
                     }
                 }
 
@@ -112,126 +146,26 @@ namespace Criptografo.ClassLibrary
                             throw new Exception("Erro 02 - A chave de criptografia não foi informada.");
                     }
                 }
+                else
+                {
+                    switch (typeCryptography)
+                    {
+                        case eTypeCryptography.DES:
+                            if(key.Length != 8)
+                                throw new Exception("Erro 04 - A chave de criptografia não contém 8 caractéres.");
+                            break;
+                        case eTypeCryptography.AES:
+                            if(key.Length != 16)
+                                throw new Exception("Erro 04 - A chave de criptografia não contém 16 caractéres.");
+                            break;
+                    }
+                }
 
                 return true;
             }
             catch (Exception e)
             {
                 throw e;
-            }
-        }
-
-        private static string GetDESCrypt(string content, string key)
-        {
-            Cripts.DESCripto cripto = null;
-
-            try
-            {
-                cripto = new Cripts.DESCripto();
-                return cripto.ToCrypt(key, content);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                cripto = null;
-            }
-        }
-
-        private static string GetDESDescrypt(string content, string key)
-        {
-            Cripts.DESCripto cripto = null;
-
-            try
-            {
-                cripto = new Cripts.DESCripto();
-                return cripto.ToDescrypt(key, content);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                cripto = null;
-            }
-        }
-
-        private static string GetAESCrypt(string content, string key)
-        {
-            Cripts.AESCripto cripto = null;
-
-            try
-            {
-                cripto = new Cripts.AESCripto();
-                return cripto.ToCrypt(key, content);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                cripto = null;
-            }
-        }
-
-        private static string GetAESDescrypt(string content, string key)
-        {
-            Cripts.AESCripto cripto = null;
-
-            try
-            {
-                cripto = new Cripts.AESCripto();
-                return cripto.ToDescrypt(key, content);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                cripto = null;
-            }
-        }
-
-        private static string GetSHA256Crypt(string content)
-        {
-            Cripts.SHA256 cripto = null;
-
-            try
-            {
-                cripto = new Cripts.SHA256();
-                return cripto.ToCrypt(content);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                cripto = null;
-            }
-        }
-
-        private static string GetMD5Crypt(string content)
-        {
-            Cripts.MD5Cript cripto = null;
-
-            try
-            {
-                cripto = new Cripts.MD5Cript();
-                return cripto.ToCrypt(content);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                cripto = null;
             }
         }
 

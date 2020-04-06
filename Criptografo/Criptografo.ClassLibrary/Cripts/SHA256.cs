@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Criptografo.ClassLibrary.Cripts
 {
-    internal class SHA256
+    internal static class SHA256
     {
-        internal string ToCrypt(string randomString)
+        internal static string ToCrypt(string randomString)
         {
             var crypt = new System.Security.Cryptography.SHA256Managed();
             var hash = new System.Text.StringBuilder();
