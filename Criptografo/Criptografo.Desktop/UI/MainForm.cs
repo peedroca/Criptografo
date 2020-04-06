@@ -118,6 +118,54 @@ namespace Criptografo.Desktop.UI
             }
         }
 
+        private void TypeComboBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                ClearScreen();
+                var comboBox = ((ComboBox)sender);
+
+                switch ((eTypeCryptography)comboBox.SelectedIndex)
+                {
+                    case eTypeCryptography.DES:
+                        MessageBox.Show("Você está utilizando o algoritmo DESCrypt. Informe uma chave de 8 caractéres."
+                            , Program.Name
+                            , MessageBoxButtons.OK
+                            , MessageBoxIcon.Information);
+                        break;
+                    case eTypeCryptography.AES:
+                        MessageBox.Show("Você está utilizando o algoritmo AESCrypt. Informe uma chave de 16 caractéres."
+                            , Program.Name
+                            , MessageBoxButtons.OK
+                            , MessageBoxIcon.Information);
+                        break;
+                    case eTypeCryptography.SHA256:
+                        MessageBox.Show("Você está utilizando o algoritmo SHA256. Não é necessário utilizar uma chave."
+                            , Program.Name
+                            , MessageBoxButtons.OK
+                            , MessageBoxIcon.Information);
+
+                        KeyTextBox.Enabled = false;
+                        break;
+                    case eTypeCryptography.MD5:
+                        MessageBox.Show("Você está utilizando o algoritmo MD5Crypt. Não é necessário utilizar uma chave."
+                            , Program.Name
+                            , MessageBoxButtons.OK
+                            , MessageBoxIcon.Information);
+
+                        KeyTextBox.Enabled = false;
+                        break;
+                }
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show($"Ocorreu um erro: {error.Message}"
+                    , Program.Name
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Error);
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -126,6 +174,8 @@ namespace Criptografo.Desktop.UI
         {
             try
             {
+                KeyTextBox.Enabled = true;
+
                 KeyTextBox.Text = string.Empty;
                 DescryotTextBox.Text = string.Empty;
                 CryptTextBox.Text = string.Empty;
