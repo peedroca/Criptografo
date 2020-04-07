@@ -19,7 +19,7 @@ Biblioteca de Classes **.Net Standard 2.0.3**
 | SHA256 | Não utiliza chave. Não pode ser descriptografado. Gerá uma criptografia com 64 caractéres. | Hash Algorithm
 | MD5 | Não utiliza chave. Não pode ser descriptografado. | Hash Algorithm
 | RSA | Utiliza duas chaves. Pode ser descriptografado. | Assimétrico
-| Zenit-Polar | Não utiliza chave. Trocar as letras da palavra Zenit pela palavra Polar | Simétrico
+| Zenit-Polar | Não utiliza chave. Troca as letras da palavra Zenit pela palavra Polar | Simétrico
 
 #### Symmetric, Asymmetric and Hash Algorithm
 
