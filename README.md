@@ -1,9 +1,8 @@
 # Criptografo
 #### Projeto OpenSource para codificar e decodificar strings utilizando diferentes formas de criptografia.
 
-![image](https://img.shields.io/github/license/peedroca/criptografo) <br>
-![image](https://img.shields.io/badge/.Net_Framework-v4.8-blueviolet)
-![image](https://img.shields.io/badge/.Net_Standard-v2.0.3-blueviolet)
+Projeto desktop - .Net Framework 4.8
+Biblioteca de Classes - .Net Standard 2.0.3
 
 ---
 
