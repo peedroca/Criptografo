@@ -11,8 +11,17 @@
 
 #### Criptografias
 
-| Descrição | Implementado |
-| --- | :---: |
-| DESCript   | :white_check_mark: |
-| SHA256   | :white_check_mark: |
-| MD5   | :x: |
+| Nome | Particularidades | Tipo
+| :--- | :--- | :---:
+| DES | Criptografia com chave de 8 caractéres. Pode ser descriptografada. | Simétrico
+| AES | Criptografia com chave de 16 caractéres. Pode ser descriptografada. | Simétrico
+| SHA256 | Não utiliza chave. Não pode ser descriptografado. Gerá uma criptografia com 64 caractéres. | Hash Algorithm
+| MD5 | Não utiliza chave. Não pode ser descriptografado. | Hash Algorithm
+| RSA | Utiliza duas chaves. Pode ser descriptografado. | Assimétrico
+| Zenit-Polar | Não utiliza chave. Trocar as letras da palavra Zenit pela palavra Polar | Simétrico
+
+#### Symmetric, Asymmetric and Hash Algorithm
+
+RSA é uma criptografia **assimétrica**, é utilizado uma chave para criptografar e uma chave diferente para descriptografar.
+AES é uma criptografia **simétrica**, usa a mesma chave para criptografar e descriptografar.
+SHA é um **algorítmo hash**, somente criptografa. Não há forma de descriptografar.
