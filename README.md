@@ -1,8 +1,8 @@
 # Criptografo
 #### Projeto OpenSource para codificar e decodificar strings utilizando diferentes formas de criptografia.
 
-Projeto desktop - .Net Framework 4.8
-Biblioteca de Classes - .Net Standard 2.0.3
+Projeto desktop **.Net Framework 4.8** <br>
+Biblioteca de Classes **.Net Standard 2.0.3**
 
 ---
 
